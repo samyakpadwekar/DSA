@@ -1,0 +1,26 @@
+Given an array arr[] of non-negative integers and an integer sum, the task is to count all subsets of the given array with a sum equal to a given sum.
+
+Example 1:
+Input: N = 6, arr[] = {2, 3, 5, 6, 8, 10} sum = 10 -- Output: 3
+Explanation: {2, 3, 5}, {2, 8}, {10}
+Example 2:
+Input: N = 5, arr[] = {1, 2, 3, 4, 5} sum = 10 -- Output: 3
+Explanation: {1, 2, 3, 4}, {1, 4, 5}, {2, 3, 5}
+
+class Solution{
+
+	public int perfectSum(int arr[],int n, int sum) 
+	{ 
+	   if(n==0)
+	        return(sum==0)?1:0;
+	   
+	   return perfectSum(arr,n-1,sum-arr[n-1])+perfectSum(arr,n-1,sum);
+	} 
+}
+
+Time Complexity : for n,no. of leaves : 2^n and internal nodes : 2^n-1 --> 2^n+2^n-1 = 2^n
+
+
+
+             
+          
