@@ -1,0 +1,54 @@
+You are given 2 numbers (n , m); the task is to find nth root of m.
+ 
+Example 1:
+Input: n = 2, m = 9
+Output: 3
+Explanation: 32 = 9
+Example 2:
+
+Input: n = 3, m = 9
+Output: -1
+Explanation: 3rd root of 9 is not integer.
+
+-----------------------------
+Time Complexity : O(n*logm)
+Space Complexity : O(1)
+-----------------------------
+
+class Solution
+{
+    public int NthRoot(int n, int m)
+    {
+        int low=1,high=m;
+        
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            int val=nTimesMid(mid,n,m);
+            if(val==0)
+                return mid;
+            else if (val==1)
+                low=mid+1;
+            else high=mid-1;
+        }
+        return -1;
+    }
+    
+    
+    //if we find complete (mid)^n value,it will lead in overflow
+    //hence return 0 if ==m
+    //return 1 < m
+    //return 2 > m
+    public int nTimesMid(int mid,int n,int m)
+    {
+        long ans=1;
+        for(int i=1;i<=n;i++)
+        {
+            ans=ans*(long)mid;
+            if(ans>m)
+                return 2;
+        }
+        if((int)ans==m) return 0;
+        else return 1;
+    }
+}
