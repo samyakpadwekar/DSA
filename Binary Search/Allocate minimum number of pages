@@ -1,0 +1,82 @@
+You have N books, each with Ai number of pages. M students need to be allocated contiguous books, with each student getting at least one book.
+Out of all the permutations, the goal is to find the permutation where the student with the most pages allocated to him gets the minimum number of pages,
+out of all possible permutations.
+Note: Return -1 if a valid assignment is not possible, and allotment should be in contiguous order (see the explanation for better understanding).
+
+Example 1:
+Input:
+N = 4
+A[] = {12,34,67,90}
+M = 2
+Output:113
+Explanation:Allocation can be done in 
+following ways:
+{12} and {34, 67, 90} Maximum Pages = 191
+{12, 34} and {67, 90} Maximum Pages = 157
+{12, 34, 67} and {90} Maximum Pages =113.
+Therefore, the minimum of these cases is 113,
+which is selected as the output.
+
+Example 2:
+Input:
+N = 3
+A[] = {15,17,20}
+M = 2
+Output:32
+Explanation: Allocation is done as
+{15,17} and {20}
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function findPages() which takes 2 Integers N,
+and m and an array A[] of length N as input and returns the expected answer.
+
+---------------------------------------
+Time Complexity : O(log(sum-max)*n)
+Space Complexity : O(1)
+---------------------------------------
+
+class Solution 
+{
+    //Function to find minimum number of pages.
+    public static int findPages(int[]A,int N,int M)
+    {
+        if(N<M) return -1;
+        int low=Integer.MIN_VALUE,high=0,ans=Integer.MAX_VALUE;
+        for(int i=0;i<N;i++)
+        {
+            low=Math.max(low,A[i]);
+            high+=A[i];
+        }
+        
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            int students = allocPossible(A,M,mid);
+            if(students > M)
+            {
+                low=mid+1;
+                //ans=mid;
+                
+            }
+            else
+                high=mid-1;
+        }
+        return low;
+    }
+    
+    private static int allocPossible(int[] books,int stud,int maxPages)
+    {
+        int studReq=1,pages=0;
+        for(int i=0;i<books.length;i++)
+        {
+            if((pages+books[i]) <= maxPages)
+                pages+=books[i];
+            else
+            {
+                studReq++;
+                pages=books[i];
+            }
+        }
+        return studReq;
+    }
+};
