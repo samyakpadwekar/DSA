@@ -34,7 +34,7 @@ Only 3 and 5 occurs in both the arrays A and B
 
 ----------------------------------------
 Time Complexity : O(n+m)
-Space Complexity : O(1)
+Space Complexity : O(n+m)
 ----------------------------------------
 
 public class Solution {
