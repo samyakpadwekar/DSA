@@ -1,0 +1,139 @@
+Given an array of integers nums, sort the array in ascending order and return it.
+You must solve the problem without using any built-in functions in O(nlog(n)) time complexity and with the smallest space complexity possible.
+
+Example 1:
+Input: nums = [5,2,3,1]
+Output: [1,2,3,5]
+Explanation: After sorting the array, the positions of some numbers are not changed (for example, 2 and 3), 
+while the positions of other numbers are changed (for example, 1 and 5).
+
+Example 2:
+Input: nums = [5,1,1,2,0,0]
+Output: [0,0,1,1,2,5]
+Explanation: Note that the values of nums are not necessairly unique.
+ 
+Constraints:
+1 <= nums.length <= 5 * 10^4
+-5 * 10^4 <= nums[i] <= 5 * 10^4
+
+------------------------------------------------------------------
+Time Complexity : O(nlogn)
+Space COmplexity : O(n)
+-------------------------------------------------------------------
+
+//mergesort
+class Solution {
+    public int[] sortArray(int[] arr) {
+         mergeSort(arr,0,arr.length-1);
+         return arr;
+    }
+    private void mergeSort(int arr[],int low,int high)
+    {
+        if(low < high){
+        int mid=(low+high)/2;
+        
+        mergeSort(arr,low,mid);
+        mergeSort(arr,mid+1,high);
+        merge(arr,low,mid,high);
+        }
+    }
+    
+    private void merge(int[] arr,int low,int mid,int high)
+    {
+        int left=low;
+        int right=mid+1;
+        
+        ArrayList<Integer> temp=new ArrayList<>();
+        
+        while(left<=mid && right<=high)
+        {
+           if(arr[left] <= arr[right])
+           {
+               temp.add(arr[left++]);
+           }
+           else
+           {
+                temp.add(arr[right++]);
+           }
+        }
+        
+        while(left<=mid)
+        {
+            temp.add(arr[left++]);
+        }
+        
+        while(right<=high)
+        {
+            temp.add(arr[right++]);
+        }
+        
+        for(int i=low;i<=high;i++)
+        {
+            arr[i]=temp.get(i-low);
+        }
+    }
+}
+
+-----------------------------------------------------------------------
+
+class Solution {
+    public int[] sortArray(int[] nums) {
+        // Merge Sort
+        // TC : O(nlogn)
+        mergeSort(nums, 0, nums.length - 1);
+        return nums;
+    }
+
+    private void mergeSort(int[] arr, int l, int r){
+        if(l >= r){
+            return;
+        }
+        int mid = (l + r) / 2;
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid + 1, r);
+        merge(arr, l, mid, r);
+    }
+
+    private void merge(int[] arr, int l, int mid, int r){
+        int n1 = mid - l + 1; // arr[l - m]
+        int n2 = r - mid;
+
+        int[] left = new int[n1];
+        int[] right = new int[n2];
+
+        for(int i = 0; i < n1; i++){
+            left[i] = arr[l + i];
+        }
+        for(int j = 0; j < n2; j++){
+            right[j] = arr[mid + 1 + j];
+        }
+
+        int i = 0;
+        int j = 0;
+        int k = l;
+
+        while(i < n1 && j < n2){
+            if(left[i] <= right[j]){
+                arr[k] = left[i];
+                i++;
+            }else{
+                arr[k] = right[j];
+                j++;
+            }
+            k++;
+        }
+
+        while(i < n1){
+            arr[k] = left[i];
+            i++;
+            k++;
+        }
+
+        while(j < n2){
+            arr[k] = right[j];
+            j++;
+            k++;
+        }
+    }
+}
+--------------------------------------------------------------
