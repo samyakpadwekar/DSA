@@ -1,0 +1,109 @@
+--------------------------------------------------
+lomuto partition:
+------------------
+
+Time complexity :
+Best: O(nlogn)
+Average: O(nlogn)
+Worst: O(n^2)
+
+Space Complexity:
+Best: O(logn)
+Average: O(logn)
+Worst: O(n)
+
+hoare's partition:
+------------------
+
+Time complexity :
+Best: O(nlogn)
+Average: O(nlogn)
+Worst: O(n^2)
+
+Space Complexity:
+Best: O(logn)
+Average: O(logn)
+Worst: O(n)
+
+----------------------------------------------------
+//quicksort
+class Solution {
+    public int[] sortArray(int[] arr) {
+         quickSort(arr,0,arr.length-1);
+         return arr;
+    }
+    private void quickSort(int arr[],int low,int high)
+    {
+        if(low < high){
+        
+        int p= partition(arr,low,high);
+        // quickSort(arr,low,p-1);lomuto
+        quickSort(arr,low,p);//hoare
+        quickSort(arr,p+1,high);
+        }
+    }
+
+
+    //lomuto partition
+    /* This function takes last element as pivot, places the pivot element at its correct position in sorted array, and places all smaller (smaller than pivot)
+       to left of pivot and all greater elements to right of pivot */
+    private int partition(int[] arr,int low,int high)
+    {
+        int partition=arr[high];
+        
+        // Index of smaller element
+        int i=low-1;
+        
+        for(int j=low;j<=high-1;j++)
+        {   
+            // If current element is smaller
+            // than or equal to pivot
+            if(arr[j]<partition)
+            {   
+                // increment index of smaller element
+                i++;
+                swap(i,j,arr);
+            }
+        }
+        swap(i+1,high,arr);
+        return i+1;
+    }
+
+
+
+    //hoare partition
+    /* This function takes first element as pivot, and places all the elements smaller than the pivot on the
+       left side and all the elements greater than the pivot on the right side. It returns the index of the last element on the smaller side*/
+    private int partition(int[] arr,int low,int high)
+    {
+        int pivot=arr[low],i=low-1,j=high+1;
+        
+        while(true)
+        {   
+            // Find leftmost element greater than or equal to pivot
+            do
+            {
+                i++;
+            }while (arr[i] < pivot);
+            
+            // Find rightmost element smaller than or equal to pivot
+            do
+            {
+                j--;
+            }while (arr[j] > pivot);
+
+            // If two pointers met.
+            if(i>=j) return j;
+
+            swap(i,j,arr);
+        }
+    }
+
+
+    private void swap(int i,int j,int[] arr)
+    {
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+}
