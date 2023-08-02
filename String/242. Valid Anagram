@@ -1,0 +1,89 @@
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+Example 1:
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+Example 2:
+Input: s = "rat", t = "car"
+Output: false
+ 
+Constraints:
+1 <= s.length, t.length <= 5 * 10^4
+s and t consist of lowercase English letters.
+
+---------------------------------------------------
+Time Complexity : O(nlogn)
+Space Complexity : O(s.length)
+---------------------------------------------------
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        char chs[] = s.toCharArray();
+        char cht[] = t.toCharArray();
+        Arrays.sort(chs);
+        Arrays.sort(cht);
+        if(!Arrays.equals(chs,cht))
+        return false;
+        return true;
+    }
+}
+
+---------------------------------------------------
+Time Complexity : O(n)
+Space Complexity : O(s.length)
+---------------------------------------------------
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        int[] characters = new int[26];
+        for(int i = 0; i < s.length(); i++) {
+            char sChar = s.charAt(i);
+            characters[sChar-'a']++;
+        }
+        for(int i = 0; i < t.length(); i++) {
+            char tChar = t.charAt(i);
+            characters[tChar-'a']--;
+            if(characters[tChar-'a'] == -1) {
+                return false;
+            }
+        }
+        for(int i = 0; i < characters.length; i++) {
+            if(characters[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+---------------------------------------------------
+Time Complexity : O(n)
+Space Complexity : O(s.length)
+---------------------------------------------------
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+
+       int slen=s.length(),tlen=t.length();
+
+       if(slen!=tlen)   return false;
+
+       int[] count=new int[26];
+
+       for(int i=0;i<slen;i++)
+       {
+           count[s.charAt(i)-'a']++;
+           count[t.charAt(i)-'a']--;
+       }
+
+       for(int i=0;i<26;i++)
+       {
+           if(count[i]!=0)
+            return false;
+       }
+
+       return true;
+    }
+}
