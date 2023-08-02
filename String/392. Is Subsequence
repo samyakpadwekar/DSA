@@ -1,0 +1,59 @@
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without 
+disturbing the relative positions of the remaining characters.(i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+Example 1:
+Input: s = "abc", t = "ahbgdc"
+Output: true
+
+Example 2:
+Input: s = "axc", t = "ahbgdc"
+Output: false
+ 
+
+Constraints:
+0 <= s.length <= 100
+0 <= t.length <= 10^4
+s and t consist only of lowercase English letters.
+
+---------------------------------------------------------
+Time Complexity : O(n+m)
+Space Complexity : O(n+m)
+--takes less time on leetcode
+---------------------------------------------------------
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int js=0;
+        int slen=s.length();
+        int tlen=t.length();
+
+        if(slen>tlen)   return false;
+
+        for(int it=0;it<tlen && js<slen;it++)
+            if(s.charAt(js)==t.charAt(it))  js++;
+
+        return js==slen;
+    }
+}
+---------------------------------------------------------
+Time Complexity : O(n+m)
+Space Complexity : O(1)
+--takes more time on leetcode
+---------------------------------------------------------
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        char sArr[]=s.toCharArray();
+        char tArr[]=t.toCharArray();
+        int js=0;
+        int tlen=tArr.length;
+        int slen=sArr.length;
+    
+        if (tlen<slen)
+            return false;
+        
+        for(int it=0;it<tlen && js<slen;it++)
+            if(sArr[js]==tArr[it])  js++;
+        
+        return js==slen;
+    }
+}
