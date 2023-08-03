@@ -16,10 +16,12 @@ Constraints:
 1 <= s.length <= 10^5
 s consists of only lowercase English letters.
 
----------------------------------------------
+-------------------------------------------------
 Time Complexity : O(n)
 Space Complexity : O(n)
----------------------------------------------
+--2 Traversal of size n
+--as per LC,it takes less space
+-------------------------------------------------
 
 class Solution {
     public int firstUniqChar(String s) {
@@ -36,10 +38,41 @@ class Solution {
     }
 }
 
----------------------------------------------
+-------------------------------------------------
 Time Complexity : O(n)
 Space Complexity : O(n)
----------------------------------------------
+--1 Traversal of size n and 1 constant traversal
+--as per leetcode,it takes more space
+-------------------------------------------------
+
+class Solution {
+    public int firstUniqChar(String s) {
+        int[] character=new int[26];
+        Arrays.fill(character,-1);
+
+        for(int i=0;i<s.length();i++)
+        {
+            if(character[s.charAt(i)-'a']==-1)
+                character[s.charAt(i)-'a']=i;
+            else
+                character[s.charAt(i)-'a']=-2;//repeating elem
+        }
+
+        int res=Integer.MAX_VALUE;
+        for(int i=0;i<26;i++)
+            if(character[i]>=0)
+                res=Math.min(res,character[i]);
+
+        return res==Integer.MAX_VALUE? -1: res;
+    }
+}
+
+-------------------------------------------------
+Time Complexity : O(n)
+Space Complexity : O(n)
+-- 2 n size array
+-------------------------------------------------
+
 class Solution {
     public int firstUniqChar(String s) {
         int [] freq=new int[26];
