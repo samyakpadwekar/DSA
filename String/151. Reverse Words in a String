@@ -1,0 +1,120 @@
+Given an input string s, reverse the order of the words.
+A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
+Return a string of the words in reverse order concatenated by a single space.
+Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words.
+Do not include any extra spaces.
+
+Example 1:
+Input: s = "the sky is blue"
+Output: "blue is sky the"
+
+Example 2:
+Input: s = "  hello world  "
+Output: "world hello"
+Explanation: Your reversed string should not contain leading or trailing spaces.
+
+Example 3:
+Input: s = "a good   example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+ 
+Constraints:
+1 <= s.length <= 104
+s contains English letters (upper-case and lower-case), digits, and spaces ' '.
+There is at least one word in s.
+
+----------------------------------------------------------------------------------
+Time Complexity : O(n^2) -- in worst cases (inner loop and substring)
+Space Complexity : O(n)
+substring operations and string concatenation inside the inner loop 
+can be expensive operation in terms of time complexity as string is immutable
+----------------------------------------------------------------------------------
+
+class Solution {
+    public String reverseWords(String s) {
+      String result=new String();
+      int i=0,n=s.length();
+
+      //O(n)
+      while(i<n)
+      {  
+          //O(n) - in worst time
+          while(i<n && s.charAt(i)==' ')i++;
+          if(i>=n)  break;
+          int j=i+1;
+          //O(n) - in worst time
+          while(j<n && s.charAt(j)!=' ')j++;
+          //O(n) -- in some cases
+          String sub=s.substring(i,j);
+          if(result.isEmpty())   result=sub;
+          else result=sub+' '+result;
+          i=j+1;
+      }
+
+      return result;
+    }
+}
+
+-----------------------------------------------------------------
+Time Complexity : O(n)
+Space Complexity : O(n)
+-----------------------------------------------------------------
+
+class Solution {
+    public String reverseWords(String s) {
+      char[] str=s.toCharArray();
+      int n=s.length();
+      return String.valueOf(revWords(str,n));  
+    }
+
+    private char[] revWords(char[] str,int n)
+    {
+        int start=0;
+        //O(n)
+        str=cleanSpaces(str,n).toCharArray();
+        n=str.length;
+        //O(n) -- overall
+        for(int end=0;end<n;end++)
+        {
+            if(str[end]==' ')
+            {
+                reverse(str,start,end-1);
+                start=end+1;
+            }
+        }
+        //O(k)- k =length of substring (n-1-start)
+        reverse(str,start,n-1);
+        //O(n)
+        reverse(str,0,n-1);
+
+        return str;
+    }
+
+    // trim leading, trailing and multiple spaces
+    private String cleanSpaces(char[] str,int n)
+    {
+        int i=0,j=0;
+
+        while(j<n)
+        {
+            while(j<n && str[j]==' ') j++;                  // skip spaces
+            while(j<n && str[j]!=' ') str[i++]=str[j++];    // keep non spaces 
+            while(j<n && str[j]==' ') j++;                  // skip spaces.
+            if(j<n) str[i++]=' ';                           //keep only one space
+        }
+
+        return new String(str).substring(0, i);
+    }
+    private void reverse(char[] str,int low,int high)
+    {
+        while(low<=high)
+        {
+            char temp=str[low];
+            str[low]=str[high];
+            str[high]=temp;
+
+            low++;
+            high--;
+        }
+    }
+}
