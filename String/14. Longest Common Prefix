@@ -1,0 +1,114 @@
+Write a function to find the longest common prefix string amongst an array of strings.
+If there is no common prefix, return an empty string "".
+
+Example 1:
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+
+Example 2:
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+
+Constraints:
+1 <= strs.length <= 200
+0 <= strs[i].length <= 200
+strs[i] consists of only lowercase English letters.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Time Complexity : O(MAX * n * log n ) where n is the number of strings in the array and MAX is the maximum number of characters in any string. 
+comparison of two strings would take at most O(MAX) time, and for sorting n strings, we would need O(MAX * n * log n ) time.
+Space Complexity : O(1)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        StringBuilder ans = new StringBuilder();
+        Arrays.sort(strs);
+        String s1 = strs[0];
+        String s2 = strs[strs.length-1];
+        for(int i=0;i<Math.min(s1.length(),s2.length());i++){
+            if(s1.charAt(i) != s2.charAt(i)){
+                return ans.toString();
+            }
+            ans.append(s1.charAt(i));
+        }
+        return ans.toString();
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Time Complexity : O(n * k) -- 
+n is size of array and k is size of 1st string(negligile if array is too large
+Space Complexity : O(1)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length == 1) return strs[0];
+        String tmp = strs[0];
+        for(int i = 1;i < strs.length;i++){
+            for(int j = 0;j < tmp.length();j++){
+                if(j >= strs[i].length()){
+                    tmp = strs[i];
+                    break;
+                }
+                if(strs[i].charAt(j) != tmp.charAt(j)){
+                    tmp = tmp.substring(0,j);
+                }
+            }
+        }
+        return tmp;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Time Complexity : O(n * k) -- 
+n is size of array and k is size of 1st string(negligile if array is too large
+Space Complexity : O(1)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    public String common(String s1,String s2){
+        int n = Math.min(s1.length(),s2.length());
+        StringBuilder sb = new StringBuilder();
+        for(int i =0;i<n;i++){
+            if(s1.charAt(i)==s2.charAt(i)){
+                sb.append(s1.charAt(i));
+            }else{
+                break;
+            }
+        }
+        return sb.toString();
+    }
+    public String longestCommonPrefix(String[] strs) {
+        //StringBuilder res = new StringBuilder();
+        String res = strs[0];
+        for(int i=1;i<strs.length;i++){
+            res=common(res,strs[i]);
+        }
+        return res;
+    }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Time Complexity : O(n * k) -- 
+n is size of array and k is size of 1st string(negligile if array is too large
+Space Complexity : O(1)
+--best time of all
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        String prefix=strs[0];
+
+        for(int i=1;i<strs.length;i++)
+        {
+            while(strs[i].indexOf(prefix)!=0)
+            {
+                prefix=prefix.substring(0,prefix.length()-1);
+            }
+        }
+
+        return prefix;
+    }
+}
