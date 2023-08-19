@@ -1,0 +1,99 @@
+Given a string, find the rank of the string amongst its permutations sorted lexicographically. 
+
+Example 1:
+
+Input:
+S = "abc"
+Output:
+1
+Explanation:
+The order permutations with letters 
+'a', 'c', and 'b' : 
+abc
+acb
+bac
+bca
+cab
+cba
+Example 2:
+
+Input:
+S = "acb"
+Output:
+2
+
+Constraints:
+1 ≤ |S| ≤ 18
+
+---------------------------------------------------------
+Time Complexity: O(|S|*26)
+Auxiliary Space: O(|S|)
+Note: |S| represents the length of string S.
+---------------------------------------------------------
+class Solution
+{
+ 
+    public long findRank(String S)
+    {
+    int n = S.length();  
+      long fact[] = new long[n];
+      fact[0]=1;
+      for(int i=1; i<n; i++)
+         fact[i] = fact[i-1]*i;
+         
+      Set<Character> hs = new HashSet<>();
+      for(char ch : S.toCharArray())
+         hs.add(ch);
+         
+      long ans = 0;
+      for(int i=0; i<n; i++){
+         char ch = S.charAt(i); 
+         char st = 'a';
+         while(st < ch){
+          if(hs.contains(st)) ans+=(fact[hs.size()-1]);
+          st+=1;
+         }
+         hs.remove(ch);
+      }
+      return ans + 1; 
+    }   
+}
+
+---------------------------------------------------------
+Time Complexity: O(|S|*26)
+Auxiliary Space: O(|S|)
+Note: |S| represents the length of string S.
+---------------------------------------------------------
+
+
+
+//User function Template for Java
+
+class Solution
+{
+    static final int CHAR=256;
+    static int fact(int n) 
+    { 
+    return (n <= 1) ? 1 : n * fact(n - 1); 
+    } 
+    
+    public long findRank(String str)
+    {
+        long res = 1; 
+    int n=str.length();
+    int mul= fact(n);
+    int[] count=new int[CHAR];
+    for(int i=0;i<n;i++)
+        count[str.charAt(i)]++;
+    for(int i=1;i<CHAR;i++)
+        count[i]+=count[i-1];
+    for(int i=0;i<n-1;i++){
+        mul=mul/(n-i);
+        res=res+(long)count[str.charAt(i)-1]*mul;
+        for(int j=str.charAt(i);j<CHAR;j++)
+            count[j]--;
+    }
+    return res; 
+    }
+    
+}
