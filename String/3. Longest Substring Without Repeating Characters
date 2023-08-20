@@ -1,0 +1,78 @@
+Given a string s, find the length of the longest substring without repeating characters.
+
+Example 1:
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+
+Example 2:
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+
+Example 3:
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ 
+Constraints:
+0 <= s.length <= 5 * 10^4
+s consists of English letters, digits, symbols and spaces.
+
+-----------------------------------------------------------------
+Time COmplexity : O(n)
+Space COmplexity : O(n)
+-----------------------------------------------------------------
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap<Character,Integer> map=new HashMap<Character,Integer>();
+        
+        int length=0,sIdx=0,eIdx=0;
+        while(eIdx < s.length())
+        {
+            if(map.containsKey(s.charAt(eIdx)))
+                sIdx=Math.max(map.get(s.charAt(eIdx))+1,sIdx);
+
+            map.put(s.charAt(eIdx),eIdx);
+            length=Math.max(length,(eIdx -sIdx+1)); 
+            eIdx++;   
+        }
+
+        return length;
+    }
+}
+
+-----------------------------------------------------------------
+Time COmplexity : O(n)
+Space COmplexity : O(n)
+-----------------------------------------------------------------
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        //for char at i keep track of longest unique char substring till i-1
+        int[] prev=new int[256];
+        Arrays.fill(prev,-1);
+        int stIdx=0;
+        int res=0;
+        int maxLen=0;
+
+        for(int endIdx=0;endIdx<s.length();endIdx++)
+        {
+            //starting of substring
+            stIdx=Math.max(stIdx,prev[s.charAt(endIdx)]+1);
+
+            //current length
+            maxLen=endIdx-stIdx+1;
+
+            //longest string till i
+            res=Math.max(res,maxLen);
+
+            //update value in char index array with curretn index
+            prev[s.charAt(endIdx)]=endIdx;
+        }
+
+        return res;
+    }
+}
