@@ -1,0 +1,97 @@
+Given a string of lowercase alphabets, count all possible substrings (not necessarily distinct) that have exactly k distinct characters. 
+Example 1:
+Input:
+S = "aba", K = 2
+Output:
+3
+Explanation:
+The substrings are: "ab", "ba" and "aba".
+
+Example 2:
+Input: 
+S = "abaaca", K = 1
+Output:
+7
+Explanation:
+The substrings are: "a", "b", "a", "aa", "a", "c", "a". 
+
+Constraints:
+1 ≤ |S| ≤ 10^6
+1 ≤ K ≤ 26
+
+--------------------------------------------------------------------------
+Time Complexity: O(n).
+Auxiliary Space: O(1).
+--------------------------------------------------------------------------
+
+class Solution
+{
+    long substrCount (String S, int K) {
+        //substrings with atmost K distinct chars - atmost k-1 distinct chars
+         long res = solve(S, K) - solve(S, K-1);
+        return res;
+    }
+    
+    private static long solve(String s,int k)
+    {
+        HashMap<Character,Integer> map=new HashMap<>();
+        
+        int ptr=-1;
+        int j=-1;
+        long ans=0;
+        
+        while(true)
+        {
+            boolean f1=false;
+            boolean f2=false;
+            while(ptr<s.length()-1)
+            {
+                f1=true;
+                ptr++;
+                char ch=s.charAt(ptr);
+                map.put(ch,map.getOrDefault(ch,0)+1);
+                
+                if(map.size() <= k){
+                    ans += ptr-j;
+                } else {
+                    break;
+                }
+            }
+            
+            if(ptr == s.length()-1 && map.size() <= k){
+                break;
+            }
+            
+            while(j < ptr)
+            {
+                f2=true;
+                
+                j++;
+                char c=s.charAt(j);
+                
+                removeInMap(map,c);
+                if(map.size() > k){
+                    continue;
+                } else {
+                    ans += ptr-j;
+                    break;
+                }
+            }
+            
+            if(f1==false && f2==false)
+                break;
+        }
+        
+        return ans;
+    }
+    
+    private static void removeInMap(HashMap<Character,Integer> map,char key)
+    {
+        int val=map.get(key);
+        
+        if(val==1)
+            map.remove(key);
+        else
+            map.put(key,val-1);
+    }
+}
