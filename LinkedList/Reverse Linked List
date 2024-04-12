@@ -1,0 +1,93 @@
+Example 1:
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+Example 2:
+Input: head = [1,2]
+Output: [2,1]
+
+Example 3:
+Input: head = []
+Output: []
+ 
+Constraints:
+The number of nodes in the list is the range [0, 5000].
+-5000 <= Node.val <= 5000
+
+---------------------------------------------------------------------------
+Time Complexity: O(n).
+Auxiliary Space: O(n).
+---------------------------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode temp = head;
+        Stack<Integer> st = new Stack<>();
+
+        while(temp!=null)
+        {
+            st.push(temp.val);
+            temp = temp.next;
+        }
+
+        temp = head;
+
+        while(temp!=null)
+        {
+            temp.val = st.pop();
+            temp = temp.next;
+        }
+        return head;
+    }
+}
+
+---------------------------------------------------------------------------
+Time Complexity: O(n).
+Auxiliary Space: O(1).
+---------------------------------------------------------------------------
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode forw = null;
+        ListNode curr = head;
+        ListNode prev = null;
+
+        while(curr != null)
+        {   
+            forw = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = forw;
+        }
+
+        return prev;
+    }
+}
+
+---------------------------------------------------------------------------
+Time Complexity: O(n).
+Auxiliary Space: O(n)(recursive stack space)
+---------------------------------------------------------------------------
+
+public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;  
+        
+        ListNode newHead = reverseList(head.next);
+        ListNode forw = head.next;
+        forw.next = head;
+        head.next = null;
+        
+        return newHead;
+}
+
+https://www.youtube.com/watch?v=D2vI2DNJGd8
